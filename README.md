@@ -47,11 +47,28 @@ An Odoo module that provides a **real-time margin dashboard with cost breakdown*
 
 ## 🛠️ Technical Notes  
 
-- Implemented using **OWL component** inside Sales Order form  
-- **Popup view** with expandable product lines  
-- Automated updates with `@api.depends` for cost fields  
-- Scales efficiently for **10k+ orders** with optimized SQL queries and caching  
-- 🔒 **Security**: cost data restricted to authorized finance and sales roles  
+### ⚡ Scaling for 10k+ Orders  
+
+- Totals (Revenue, COGS, Margin) are **stored and pre-computed** on orders and order lines to avoid recalculation on every open.  
+- Re-computation is triggered only on **key events** (order confirmation, price change, landed cost posting, overhead update).  
+- **Batch updates** are applied for multiple lines together.  
+- The popup uses **lazy loading** (details load only when user expands a product).  
+- **Caching** is applied at order level and refreshed only when costs change.  
+- **Optimized queries** (`read_group` / SQL) are used instead of Python loops for aggregations.  
+
+This ensures smooth performance even with **10k+ orders and products**.  
+
+---
+
+### 🔒 Security Considerations  
+
+- Only **finance/manager groups** can access cost and margin data.  
+- All RPC/API endpoints include **server-side permission checks** (beyond UI restrictions).  
+- Data is **restricted by company** to prevent cross-company leaks.  
+- Popup responses return only **safe numerical values** (landed cost, overhead, margin) without sensitive record details.  
+- Configuration changes and landed cost postings are **logged for audit purposes**.  
+
+This design keeps the dashboard **secure and compliant**, while protecting sensitive financial data.  
 
 ---
 
@@ -78,3 +95,4 @@ An Odoo module that provides a **real-time margin dashboard with cost breakdown*
 ---
 
 ✅ That’s it! Your sales team now has **real-time margin visibility** with detailed cost breakdown.  
+
