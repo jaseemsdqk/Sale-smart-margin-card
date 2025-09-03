@@ -1,0 +1,21 @@
+<!-- Dialog Template with Chart (No outer click handler to prevent multiple triggers) -->
+<templates>
+
+    <t t-name="sale_smart_margin_card.infoDialog">
+        <Dialog title="props.title" modalRef="modalRef" size="'lg'">
+            <div class="o_chart_container">
+                <h6 class="smart-margin-title">Smart Margin Card</h6>
+                <div class="canvas-container">
+                    <canvas t-ref="chartCanvas"></canvas>
+                </div>
+            </div>
+            <t t-set-slot="footer">
+                <button class="btn" t-att-class="props.confirmClass"
+                        t-on-click="clickClose" t-esc="props.confirmLabel"/>
+                <div class="card-tip">
+                    Tap the card to view detailed product insights
+                </div>
+            </t>
+        </Dialog>
+    </t>
+</templates>

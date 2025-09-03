@@ -1,0 +1,88 @@
+.product-dialog-glass {
+    background: rgba(255,255,255,0.25);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(60,72,100,0.10);
+    backdrop-filter: blur(16px);
+    min-height: 520px;
+    display: flex; flex-direction: column;
+}
+.product-dialog-header {
+    border-radius: 16px 16px 0 0;
+    padding: 28px 36px 18px 36px;
+    justify-content: space-between;
+    display: flex;
+    align-items: center;
+}
+.product-dialog-title {
+    font-size: 1.6rem; font-weight: 600;
+}
+.product-dialog-order-id {
+    font-size: 1rem;
+    opacity: 0.8;
+}
+.product-dialog-body {
+    padding: 32px;
+}
+.product-dialog-table-container {
+    overflow-x: auto;
+}
+.product-dialog-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 1rem;
+    margin: 0;
+}
+.product-dialog-table th,
+.product-dialog-table td {
+    padding: 12px 10px;
+    text-align: center;
+    border-bottom: 1px solid rgba(150,150,150,0.05);
+}
+.product-dialog-table th {
+    font-weight: 500;
+    backdrop-filter: blur(4px);
+}
+.product-dialog-table tr.aggregate-row {
+    font-weight: 600;
+    font-size: 1.02em;
+    background: rgba(240,243,250,0.63);
+}
+.product-dialog-table .table-expand-btn {
+    background: none; border: none;
+    font-size: 1.2em; cursor: pointer;
+}
+.product-dialog-table tr.expand-row td {
+    padding-top: 24px;
+    padding-bottom: 24px;
+    background: rgba(245,247,255,0.40);
+}
+.cost-breakdown-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(200px,1fr));
+    gap: 24px;
+}
+.product-dialog-footer {
+    border-top: 1px solid rgba(140,140,140,0.08);
+    padding: 20px 36px;
+    display: flex;
+    justify-content: flex-end;
+}
+.product-dialog-close-btn {
+    border-radius: 8px;
+    padding: 10px 28px;
+    font-weight: 500;
+    background: rgba(255,255,255,0.42);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(140,140,140,0.22);
+    cursor: pointer;
+    transition: box-shadow 0.2s;
+}
+.product-dialog-close-btn:hover {
+    box-shadow: 0 2px 8px rgba(100,115,160,0.10);
+}
+.product-dialog-empty {
+    text-align: center;
+    padding: 80px 20px;
+    font-size: 1.2rem;
+    opacity: 0.6;
+}

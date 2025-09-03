@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_sale_order_form_inherit" model="ir.ui.view">
+        <field name="name">sale.order.form.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="attributes">
+                <attribute name="js_class">model_info</attribute>
+            </xpath>
+            <xpath expr="//field[@name='order_line']" position="after">
+                <field name="total_revenue" invisible="1"/>
+                <field name="total_cogs" invisible="1"/>
+                <field name="net_margin" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/list/field[@name='product_template_id']"
+                   position="after">
+                <field name="landed_cost" column_invisible="True"/>
+                <field name="overhead_cost" column_invisible="True"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,146 @@
+<templates>
+
+    <!-- Product Dialog Template (Simplified as per your update) -->
+
+    <t t-name="sale_smart_margin_card.productDialog">
+        <Dialog title="'Product Card'" size="'xl'">
+            <div class="product-dialog-glass">
+                <div class="product-dialog-header">
+                    <span class="product-dialog-title">Product Details</span>
+                </div>
+                <div class="product-dialog-body">
+                    <t t-if="state.orderLineData.length > 0">
+                        <div class="product-dialog-table-container">
+                            <table class="product-dialog-table">
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Sold Qty</th>
+                                        <th>Unit Price</th>
+                                        <th>Landed Cost</th>
+                                        <th>Overhead</th>
+                                        <th>Line Margin</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Aggregate Row -->
+                                    <tr class="aggregate-row">
+                                        <td>[Aggregate]</td>
+                                        <td>
+                                            <t t-esc="state.orderLineData.reduce((sum, line) => sum + line.sold_qty, 0)"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="state.orderLineData.reduce((sum, line) => sum + line.unit_price * line.sold_qty, 0).toFixed(2)"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="state.orderLineData.reduce((sum, line) => sum + line.landed_cost * line.sold_qty, 0).toFixed(2)"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="state.orderLineData.reduce((sum, line) => sum + line.overhead * line.sold_qty, 0).toFixed(2)"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="state.orderLineData.reduce((sum, line) => sum + line.line_margin, 0).toFixed(2)"/>
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    <!-- Product Rows -->
+                                    <t t-foreach="state.orderLineData"
+                                       t-as="line" t-key="line.product">
+
+                                        <t t-log="state.orderLineData,'llllllllllllll'"/>
+                                        <tr>
+                                            <td>
+                                                <t t-esc="line.product"/>
+                                            </td>
+                                            <td>
+                                                <t t-esc="line.sold_qty"/>
+                                            </td>
+                                            <td>
+                                                <t t-esc="line.unit_price.toFixed(2)"/>
+                                            </td>
+                                            <td>
+                                                <t t-esc="line.landed_cost.toFixed(2)"/>
+                                            </td>
+                                            <td>
+                                                <t t-esc="line.overhead.toFixed(2)"/>
+                                            </td>
+                                            <td>
+                                                <t t-esc="line.line_margin.toFixed(2)"/>
+                                            </td>
+                                            <td>
+                                                <button class="table-expand-btn"
+                                                        t-on-click="() => this.toggleExpand(line)">
+                                                    <t t-esc="state.expandedRows.has(line.product) ? '−' : '+'"/>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <!-- Expandable details -->
+                                        <tr t-if="state.expandedRows.has(line.product)">
+                                            <td colspan="7" class="expand-row">
+                                                <div class="cost-breakdown-grid">
+                                                    <div>
+                                                        <strong>Landed Cost
+                                                            Breakdown:
+                                                        </strong>
+                                                        <br/>
+                                                        Freight:
+                                                        <t t-esc="(line.landed_breakdown.freight || 0).toFixed(2)"/>
+                                                        <br/>
+                                                        Customs:
+                                                        <t t-esc="(line.landed_breakdown.customs || 0).toFixed(2)"/>
+                                                        <br/>
+                                                        Other:
+                                                        <t t-esc="(line.landed_breakdown.other || 0).toFixed(2)"/>
+                                                    </div>
+                                                    <div>
+                                                        <strong>Overhead
+                                                            Breakdown:
+                                                        </strong>
+                                                        <br/>
+                                                        <t t-foreach="Object.entries(line.overhead_breakdown)"
+                                                           t-as="entry"
+                                                           t-key="entry[0]">
+                                                            <t t-esc="entry[0]"/>
+                                                            :
+                                                            <t t-esc="entry[1].toFixed(2)"/>
+                                                            <br/>
+                                                        </t>
+                                                    </div>
+                                                    <div>
+                                                        <strong>Margin
+                                                            Calculation:
+                                                        </strong>
+                                                        <br/>
+                                                        Revenue:
+                                                        <t t-esc="(line.sold_qty * line.unit_price).toFixed(2)"/>
+                                                        <br/>
+                                                        Cost:
+                                                        <t t-esc="((line.sold_qty * line.landed_cost) + (line.sold_qty * line.overhead)).toFixed(2)"/>
+                                                        <br/>
+                                                        Margin:
+                                                        <t t-esc="line.line_margin.toFixed(2)"/>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <div class="product-dialog-empty">
+                            No product details available.
+                        </div>
+                    </t>
+                </div>
+                <div class="product-dialog-footer">
+                    <button class="product-dialog-close-btn"
+                            t-on-click="clickClose">
+                        <t t-esc="props.confirmLabel || 'Close'"/>
+                    </button>
+                </div>
+            </div>
+        </Dialog>
+    </t>
+</templates>

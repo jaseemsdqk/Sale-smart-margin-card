@@ -1,0 +1,11 @@
+<templates>
+    <!-- Button Template -->
+    <t t-name="sale_smart_margin_card.modelInfoBtn" t-inherit="web.FormView">
+        <xpath expr="//t[@t-set-slot='layout-actions']" position="inside">
+            <button class="btn-smart-margin-card"
+                    t-on-click="actionSmartMarginCard">
+                Smart Margin Card
+            </button>
+        </xpath>
+    </t>
+</templates>
